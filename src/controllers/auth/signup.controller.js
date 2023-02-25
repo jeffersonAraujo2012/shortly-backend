@@ -2,11 +2,10 @@ import bcrypt from 'bcrypt';
 import db from '../../database/database.js';
 
 export default async function signup(req, res) {
-  const PEPPER = process.env.PEPPER | '$any_pepper$';
+  const PEPPER = process.env.PEPPER || '$any_pepper$';
   const newUser = req.body;
 
   newUser.password = bcrypt.hashSync(newUser.password + PEPPER, 10);
-  newUser.email = bcrypt.hashSync(newUser.email + PEPPER, 10);
 
   try {
     const resultQuery = await db.query('SELECT * FROM users WHERE email = $1', [
@@ -23,6 +22,10 @@ export default async function signup(req, res) {
     `,
       [newUser.name, newUser.email, newUser.password]
     );
+
+    if (resultQuery.rowCount === 0) {
+      return res.status(500).send('Internal Error - User is not created');
+    }
   } catch (error) {
     return res.status(500).send('Algo de errado no processo de cadastro.');
   }
