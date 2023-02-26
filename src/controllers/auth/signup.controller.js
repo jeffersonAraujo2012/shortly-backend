@@ -22,10 +22,6 @@ export default async function signup(req, res) {
     `,
       [newUser.name, newUser.email, newUser.password]
     );
-
-    if (resultQuery.rowCount === 0) {
-      return res.status(500).send('Internal Error - User is not created');
-    }
   } catch (error) {
     return res.status(500).send('Algo de errado no processo de cadastro.');
   }
