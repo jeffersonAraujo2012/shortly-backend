@@ -6,20 +6,18 @@ export default async function getMe(req, res) {
   try {
     const meResult = await db.query(
       /*SQL*/ `
-      SELECT json_build_object(
-        'id', users.id,
-        'name', users.name,
-        'visitCount', SUM(urls."visitCount"),
-        'shortenedUrls', json_agg(
+      SELECT 
+        users.id,
+        users.name,
+        SUM(urls."visitCount") AS "visitCount",
+        json_agg(
           json_build_object(
             'id', urls.id,
             'shortUrl', urls."shortUrl",
             'url', urls.url,
             'visitCount', urls."visitCount"
           )
-        )
-      )
-      AS me
+        ) AS "shortenedUrls"
       FROM users
       JOIN urls ON urls.owner = users.id
       WHERE users.id = $1
