@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/', authRoutes);
-app.use('/url', urlRoutes);
+app.use('/urls', urlRoutes);
 app.use('/users', userRoutes);
 app.use('/ranking', rankingRoutes)
 
