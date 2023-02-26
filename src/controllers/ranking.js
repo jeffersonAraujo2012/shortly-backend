@@ -2,7 +2,7 @@ import db from '../database/database.js';
 
 export default async function ranking(req, res) {
   const resultRanking = await db.query(/*SQL*/ `
-    SELECT users.id, users.name, COUNT(urls.id) AS "linkCount", SUM(urls."visitCount") AS "visitCount"
+    SELECT users.id, users.name, COUNT(urls.id) AS "linksCount", SUM(urls."visitCount") AS "visitCount"
     FROM users
     JOIN urls ON urls.owner = users.id
     GROUP BY users.id
