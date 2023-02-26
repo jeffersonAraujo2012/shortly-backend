@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes.js';
 import urlRoutes from './routes/url.routes.js';
 import userRoutes from './routes/user.routes.js';
+import rankingRoutes from './routes/ranking.routes.js';
 dotenv.config();
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use('/', authRoutes);
 app.use('/url', urlRoutes);
 app.use('/users', userRoutes);
+app.use('/ranking', rankingRoutes)
 
 app.listen(5000, (err) => {
   if (err) {
