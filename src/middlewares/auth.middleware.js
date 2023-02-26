@@ -9,8 +9,12 @@ export default function authMid(req, res, next) {
   if (authorization[0].toUpperCase() !== 'BEARER') return res.sendStatus(401);
 
   const token = authorization[1];
-  const user = jwt.verify(token, JWT_SECRET);
-  res.locals.user = user;
 
-  next();
+  try {
+    const user = jwt.verify(token, JWT_SECRET);
+    res.locals.user = user;
+    next();
+  } catch (error) {
+    res.status(401).send('Invalid Token');
+  }
 }
